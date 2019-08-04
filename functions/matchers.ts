@@ -26,10 +26,6 @@ export interface OutwardMatchedEntries {
  */
 export const matchers: MatcherConfig[] = [
   {
-    label: "deliveroo",
-    matcher: /deliveroo/gi,
-  },
-  {
     label: "nationwide",
     matcher: /nationwide/gi,
     necessary: true,
@@ -45,8 +41,64 @@ export const matchers: MatcherConfig[] = [
     necessary: true,
   },
   {
+    label: "waitrose",
+    matcher: /waitrose/gi,
+    necessary: true,
+  },
+  {
+    label: "Landline/Broadband",
+    matcher: /(bt group)/gi,
+    necessary: true,
+  },
+  {
+    label: "utilities",
+    matcher: /(bt group|southern water|bgas)/gi,
+    necessary: true,
+  },
+  {
+    label: "taxes",
+    matcher: /(cdc revs)/gi,
+    necessary: true,
+  },
+  {
+    label: "Draconian law",
+    matcher: /(tv license)/gi,
+  },
+  {
+    label: "other groceries",
+    matcher: /(marks and spencer)/gi,
+  },
+  {
+    label: "take-away",
+    matcher: /(deliveroo|india gate)/gi,
+  },
+  {
     label: "paypal",
     matcher: /paypal/gi,
+  },
+  {
+    label: "uber",
+    matcher: /uber/gi,
+  },
+  {
+    label: "Amazon purchase",
+    matcher: /AMZN|AMAZON.CO/g,
+  },
+  {
+    label: "Amazon Prime & video purchases",
+    matcher: /prime video/gi,
+  },
+  {
+    label: "Cafes",
+    matcher: /(Harris and Hoole)/gi,
+  },
+  {
+    label: "Vape",
+    matcher: /(Vapestore)/gi,
+  },
+  {
+    label: "Ali Express",
+    matcher: /(aliexpress)/gi,
   },
   {
     label: "unmatched",
