@@ -10,3 +10,14 @@ export interface ParsedEntry {
 
 export type PostProcessor = (parsedEntries: ParsedEntry[]) => string
 
+export interface Indexer {
+  date: number
+  type: number
+  description: number
+  difference: number
+  balance: number
+}
+
+export interface Indexers {
+  [bankName: string]: Indexer
+}

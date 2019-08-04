@@ -1,8 +1,9 @@
 import {readFile} from "fs"
-import {PostType, ParsedEntry, PostProcessor} from "./types/base"
+import {PostType, ParsedEntry, PostProcessor, Indexer} from "./types/base"
 import {TotalSpending} from "./functions/total-spending"
 import {Monthly} from "./functions/monthly-averages"
 import {MatchersByMonth} from "./functions/matchers"
+import bankIndexes from "./bank-indexes"
 
 const loggers: PostProcessor[] = [
   TotalSpending,
@@ -15,13 +16,9 @@ const skipLines = process.argv[3]
   ? Number(process.argv[3]) 
   : 3
 
-const indexes = {
-  date: 0,
-  type: 1,
-  description: 2,
-  difference: 3,
-  balance: 4,
-}
+const indexes: Indexer = bankIndexes[(process.argv[4] || "natwest") as string]
+
+console.log("BANK", indexes)
 
 new Promise<string>((resolve, reject) =>
   readFile(inputCSV, (err: any, buffer: Buffer) => {
