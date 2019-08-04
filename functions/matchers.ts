@@ -1,5 +1,5 @@
 import {ParsedEntry} from "../types/base"
-import {isArray} from 'util';
+import {money} from "../utils"
 
 export interface MatcherConfig {
   label: string
@@ -40,6 +40,15 @@ export const matchers: MatcherConfig[] = [
     necessary: true,
   },
   {
+    label: "ocado",
+    matcher: /ocado/gi,
+    necessary: true,
+  },
+  {
+    label: "paypal",
+    matcher: /paypal/gi,
+  },
+  {
     label: "unmatched",
     matcher: /^.*$/,
   },
@@ -77,7 +86,7 @@ export function MatchersByMonth(entries: ParsedEntry[]) {
           }
         }
         console.log(matcher.label, entry.difference)
-        if (!matcher.necessary) {
+        if (!matcher.necessary && matcher.label !== "unmatched") {
           savings += Math.abs(entry.difference)
           totalUnnecessarySpends += 1
         }
@@ -89,7 +98,5 @@ export function MatchersByMonth(entries: ParsedEntry[]) {
     return out
   }, months)
 
-  console.log(entriesByMonth)
-
-  return `Monthly breakdown of where the money goes.\n`
+  return `Monthly breakdown of where the money goes.\nunnecessary spends ${totalUnnecessarySpends} totalling ${money(savings)} in missed savings.\n`
 }
