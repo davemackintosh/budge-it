@@ -74,6 +74,7 @@ new Promise<string>((resolve, reject) =>
   ))
   .then((parsedEntries: ParsedEntry[]) => {
     loggers.forEach((logger: PostProcessor) => console.log("%s\n", logger(parsedEntries)))
+    console.log(`Made by Dave Mackintosh\nhttps://twitter.com/daveymackintosh\nhttps://github.com/davemackintosh\n❤`)
   })
   .catch((err: any) => {
     console.error(err)
