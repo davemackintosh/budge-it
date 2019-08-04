@@ -2,10 +2,12 @@ import {readFile} from "fs"
 import {PostType, ParsedEntry, PostProcessor} from "./types/base"
 import {TotalSpending} from "./functions/total-spending"
 import {Monthly} from "./functions/monthly-averages"
+import {MatchersByMonth} from "./functions/matchers"
 
 const loggers: PostProcessor[] = [
   TotalSpending,
   Monthly,
+  MatchersByMonth,
 ]
 
 const inputCSV = process.argv[2] || "./Regular-20190803.csv"
@@ -58,7 +60,6 @@ new Promise<string>((resolve, reject) =>
       "OPENING-BALANCE",
       entries[0][indexes.balance],
     ])
-    console.log(entries[0])
     return entries
   })
   .then((entries: string[][]) => entries.map((entry: string[]): ParsedEntry => {
