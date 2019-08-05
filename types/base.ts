@@ -15,7 +15,13 @@ export interface Indexer {
   type: number
   description: number
   difference: number
-  balance: number
+  /**
+   * Natwest keeps a running track of your balance
+   * next to the difference field in the CSV.
+   * HSBC doesn't do this so this is an optional
+   * field on the indexer.
+   */
+  balance?: number
 }
 
 export interface Indexers {
