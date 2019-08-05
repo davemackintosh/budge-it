@@ -19,6 +19,11 @@ will give you a butt tonne of information about your finances.
 
 ## Adding your bank
 
+**Currently supported banks**
+
+* Natwest
+* Add yours following the below
+
 Currently, this only supports Natwest bank statements in CSV format. To add a new bank you simply need to take a look at your CSV and create a new [`Indexer`](https://github.com/davemackintosh/budge-it/blob/master/types/base.ts#L13-L19) for your bank. There is a folder of currently existing [bank's indexers here](https://github.com/davemackintosh/budge-it/tree/master/bank-indexes).
 
 ## Currencies
