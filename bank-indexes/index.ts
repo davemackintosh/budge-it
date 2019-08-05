@@ -1,4 +1,4 @@
-import {natwest} from "./halifax"
+import {halifax} from "./halifax"
 import {natwest} from "./natwest"
 import {Indexers} from '../types/base';
 
