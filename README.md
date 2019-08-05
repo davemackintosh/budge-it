@@ -26,6 +26,11 @@ Although I've not yet made the effort to make this multi-lingual (I will) I have
 
 To add your currency, you simply need to add the supported [`locale -a` value](http://man7.org/linux/man-pages/man1/locale.1.html) value to map to the [ISO 4217 currency code](https://www.iso.org/iso-4217-currency-codes.html) to the [currency map here](https://github.com/davemackintosh/budge-it/blob/master/utils.ts#L1) 
 
+## Matchers
+A matcher is a configuration that tests the entry to output it as either a necessary item or an unnecessary expenditure and counts towards what you could have saved (but didn't)
+
+You can [add your own matchers here](https://github.com/davemackintosh/budge-it/blob/master/functions/matchers.ts#L19)
+
 ### Future plans
 
 * add pretty CLI graphs.
