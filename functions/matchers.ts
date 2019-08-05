@@ -150,5 +150,17 @@ export function MatchersByMonth(entries: ParsedEntry[]) {
     return out
   }, months)
 
-  return `Monthly breakdown of where the money goes.\nunnecessary spends ${totalUnnecessarySpends} totalling ${money(savings)} in missed savings.\n`
+  const monthData = entriesByMonth
+    .map((entries: OutwardMatchedEntries, month: number): string => {
+      const breakdown = Object.keys(entries)
+        .map((label: string): string => {
+          return `${month}\n\t${label} :\n\t\ttotal: ${money(entries[label].total)}`
+        })
+        .join("\n")
+
+      return breakdown
+    })
+    .join("\n")
+
+  return `Monthly breakdown of where the money goes.\nunnecessary spends ${totalUnnecessarySpends} totalling ${money(savings)} in missed savings.\n\n${monthData}`
 }
