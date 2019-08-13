@@ -1,5 +1,5 @@
 import {ParsedEntry} from "../types/base"
-import {money} from "../utils"
+import {money, monthNames} from "../utils"
 
 export interface MatcherConfig {
   label: string
@@ -152,13 +152,14 @@ export function MatchersByMonth(entries: ParsedEntry[]) {
 
   const monthData = entriesByMonth
     .map((entries: OutwardMatchedEntries, month: number): string => {
+      const label = monthNames[month] + "\n"
       const breakdown = Object.keys(entries)
         .map((label: string): string => {
-          return `${month}\n\t${label} :\n\t\ttotal: ${money(entries[label].total)}`
+          return `\t${label} :\n\t\ttotal: ${money(entries[label].total)}`
         })
         .join("\n")
 
-      return breakdown
+      return label + breakdown
     })
     .join("\n")
 
