@@ -4,6 +4,7 @@ import {TotalSpending} from "./functions/total-spending"
 import {Monthly} from "./functions/monthly-averages"
 import {MatchersByMonth} from "./functions/matchers"
 import bankIndexes from "./bank-indexes"
+import chalk from 'chalk';
 
 const loggers: PostProcessor[] = [
   TotalSpending,
@@ -11,7 +12,14 @@ const loggers: PostProcessor[] = [
   MatchersByMonth,
 ]
 
-const inputCSV = process.argv[2] || "./Regular-20190803.csv"
+if (process.argv.length === 2) {
+  console.log(`${chalk.bold.underline("Usage:")}
+budge-it ${chalk.italic("my-bank-statement.csv natwest|halifax|hsbc")}
+`)
+  process.exit(-1)
+}
+
+const inputCSV = process.argv[2] || "./bank-statement.csv"
 const skipLines = process.argv[3] 
   ? Number(process.argv[3]) 
   : 0
