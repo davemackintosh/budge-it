@@ -1,23 +1,29 @@
 {
   "name": "budge-it",
-  "version": "1.0.1",
-  "description": "",
+  "version": "1.0.2",
+  "description": "Bank statement CSV parser, break down your finances to understand them.",
   "main": "./build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node index.ts",
     "build": "tsc",
-    "prepublish": "tsc"
+    "prepublishOnly": "tsc"
   },
-  "keywords": [],
+  "keywords": [
+    "finance",
+    "financial-analysis",
+    "personal finances"
+  ],
   "bin": {
     "budge-it": "./build/index"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "davemackintosh",
+  "license": "MIT",
   "dependencies": {
+    "chalk": "^2.4.2"
+  },
+  "devDependencies": {
     "@types/node": "^12.6.9",
-    "chalk": "^2.4.2",
     "typescript": "^3.5.3"
   }
 }
