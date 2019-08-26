@@ -1,4 +1,6 @@
+import {Widget} from "blessed"
 export type PostType = "OPENING-BALANCE" | "D/D" | "POS"
+export type AvailableBanks = "natwest" | "hsbc" | "halifax"
 
 export interface ParsedEntry {
   date: Date
@@ -8,7 +10,7 @@ export interface ParsedEntry {
   difference: number
 }
 
-export type PostProcessor = (parsedEntries: ParsedEntry[]) => string
+export type PostProcessor = (parsedEntries: ParsedEntry[], screen: Widget.Screen) => Widget.Node
 
 export interface Indexer {
   date: number
@@ -20,5 +22,7 @@ export interface Indexer {
 }
 
 export interface Indexers {
-  [bankName: string]: Indexer
+  natwest: Indexer
+  hsbc: Indexer
+  halifax: Indexer
 }

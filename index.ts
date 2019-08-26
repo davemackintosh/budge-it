@@ -1,10 +1,34 @@
 import {readFile} from "fs"
-import {PostType, ParsedEntry, PostProcessor, Indexer} from "./types/base"
-import {TotalSpending} from "./functions/total-spending"
-import {Monthly} from "./functions/monthly-averages"
-import {MatchersByMonth} from "./functions/matchers"
-import bankIndexes from "./bank-indexes"
-import chalk from 'chalk';
+import {PostType, ParsedEntry, PostProcessor, Indexer, AvailableBanks} from "./types/base"
+import {TotalSpending} from "@functions/total-spending"
+import {Monthly} from "@functions/monthly-averages"
+import {MatchersByMonth} from "@functions/matchers"
+import bankIndexes from "@banks"
+//import chalk from "chalk"
+import yargs, {Argv} from "yargs"
+import {CLIArgs} from '@budge-types/cli-args';
+
+const argv: Argv<CLIArgs> = yargs
+  .option("csv", {
+    alias: "c",
+    description: "The path to your CSV",
+    type: "string"
+  })
+  .option("bank", {
+    alias: "b",
+    description: "What bank is this statement from? natwest, hsbc or halifax?",
+    type: "string"
+  })
+  .option("reporters", {
+    alias: "r",
+    description: "What reports do you want to see?",
+    type: "string",
+    default: "all",
+  })
+  .demandOption("csv")
+  .demandOption("bank")
+  .epilogue(`Made by Dave Mackintosh\nhttps://twitter.com/daveymackintosh\nhttps://github.com/davemackintosh\n❤`)
+  .argv
 
 const loggers: PostProcessor[] = [
   TotalSpending,
@@ -12,22 +36,10 @@ const loggers: PostProcessor[] = [
   MatchersByMonth,
 ]
 
-if (process.argv.length === 2) {
-  console.log(`${chalk.bold.underline("Usage:")}
-budge-it ${chalk.italic("my-bank-statement.csv natwest|halifax|hsbc")}
-`)
-  process.exit(-1)
-}
-
-const inputCSV = process.argv[2] || "./bank-statement.csv"
-const skipLines = process.argv[3] 
-  ? Number(process.argv[3]) 
-  : 0
-
-const indexes: Indexer = bankIndexes[(process.argv[4] || "natwest") as string]
+const indexes: Indexer = bankIndexes[argv.bank as AvailableBanks]
 
 new Promise<string>((resolve, reject) =>
-  readFile(inputCSV, (err: any, buffer: Buffer) => {
+  readFile(argv.csv, (err: any, buffer: Buffer) => {
     if (err) return reject(err)
 
     return resolve(buffer.toString())
@@ -104,7 +116,7 @@ new Promise<string>((resolve, reject) =>
   ))
   .then((parsedEntries: ParsedEntry[]) => {
     loggers.forEach((logger: PostProcessor) => console.log("%s\n", logger(parsedEntries)))
-    console.log(`Made by Dave Mackintosh\nhttps://twitter.com/daveymackintosh\nhttps://github.com/davemackintosh\n❤`)
+    console.log()
   })
   .catch((err: any) => {
     console.error(err)
