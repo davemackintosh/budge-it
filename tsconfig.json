@@ -11,10 +11,10 @@
     "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
-      "@src/*": ["./src/*"],
-      "@budge-types/*": ["./types/*"],
-      "@functions/*": ["./src/functions/*"],
-      "@banks/*": ["./src/bank-indexes/*"],
+      "@src*": ["./src*"],
+      "@budge-types*": ["./types*"],
+      "@functions*": ["./src/functions*"],
+      "@banks*": ["./src/bank-indexes*"],
       "@banks": ["./src/bank-indexes/index.ts"]
     }
   }

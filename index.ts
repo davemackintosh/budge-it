@@ -5,10 +5,12 @@ import {Monthly} from "@functions/monthly-averages"
 import {MatchersByMonth} from "@functions/matchers"
 import bankIndexes from "@banks"
 //import chalk from "chalk"
-import yargs, {Argv} from "yargs"
+import yargs from "yargs"
 import {CLIArgs} from '@budge-types/cli-args';
+import blessed, {Widgets} from "blessed"
 
-const argv: Argv<CLIArgs> = yargs
+const screen = blessed.screen()
+const argv: CLIArgs = yargs
   .option("csv", {
     alias: "c",
     description: "The path to your CSV",
@@ -36,7 +38,7 @@ const loggers: PostProcessor[] = [
   MatchersByMonth,
 ]
 
-const indexes: Indexer = bankIndexes[argv.bank as AvailableBanks]
+const indexer: Indexer = bankIndexes[argv.bank as AvailableBanks]
 
 new Promise<string>((resolve, reject) =>
   readFile(argv.csv, (err: any, buffer: Buffer) => {
@@ -45,7 +47,7 @@ new Promise<string>((resolve, reject) =>
     return resolve(buffer.toString())
   })
 )
-  .then((statement: string) => statement.split("\n").slice(skipLines))
+  .then((statement: string) => statement.split("\n").slice(indexer.skipLines))
   .then((entries: string[]): string[][] => entries.map((entry: string): string[] => {
       let openSpeech = false
       let out: string[] = []
@@ -115,8 +117,10 @@ new Promise<string>((resolve, reject) =>
   }
   ))
   .then((parsedEntries: ParsedEntry[]) => {
-    loggers.forEach((logger: PostProcessor) => console.log("%s\n", logger(parsedEntries)))
-    console.log()
+    const nodes = loggers.map((logger: PostProcessor) => logger(parsedEntries, screen))
+
+    // Add all the reporters.
+    nodes.forEach((node: Widgets.Node) => screen.append(node))
   })
   .catch((err: any) => {
     console.error(err)

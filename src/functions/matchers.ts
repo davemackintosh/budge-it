@@ -1,5 +1,6 @@
-import {ParsedEntry} from "../types/base"
-import {money, monthNames} from "../utils"
+import {ParsedEntry} from "@budge-types/base"
+import {money, monthNames} from "@src/utils"
+import blessed, {Widgets} from "blessed"
 
 export interface MatcherConfig {
   label: string
@@ -96,7 +97,7 @@ export const matchers: MatcherConfig[] = [
   },
 ]
 
-export function MatchersByMonth(entries: ParsedEntry[]) {
+export function MatchersByMonth(entries: ParsedEntry[], _screen: Widgets.Screen): Widgets.Node {
   const months: OutwardMatchedEntries[] = []
   let savings = 0
   let totalUnnecessarySpends = 0
@@ -127,7 +128,7 @@ export function MatchersByMonth(entries: ParsedEntry[]) {
             numberOfEntries: months[month][matcher.label].numberOfEntries += 1,
           }
         }
-        console.log(matcher.label, entry.difference)
+
         if (!matcher.necessary && matcher.label !== "unmatched") {
           savings += Math.abs(entry.difference)
           totalUnnecessarySpends += 1
@@ -152,6 +153,24 @@ export function MatchersByMonth(entries: ParsedEntry[]) {
       return label + breakdown
     })
     .join("\n")
+  
 
-  return `Monthly breakdown of where the money goes.\nunnecessary spends ${totalUnnecessarySpends} totalling ${money(savings)} in missed savings.\n\n${monthData}`
+  return blessed.box({
+    content: `Monthly breakdown of where the money goes.\nunnecessary spends ${totalUnnecessarySpends} totalling ${money(savings)} in missed savings.\n\n${monthData}`,
+    tags: true,
+    border: {
+      type: 'line'
+    },
+    style: {
+      fg: 'white',
+      bg: 'magenta',
+      border: {
+        fg: '#f0f0f0'
+      },
+      hover: {
+        bg: 'green'
+      }
+    }
+  })
+
 }
