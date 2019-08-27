@@ -5,12 +5,13 @@ import {Monthly} from "@functions/monthly-averages"
 import {MatchersByMonth} from "@functions/matchers"
 import bankIndexes from "@banks"
 //import chalk from "chalk"
-import yargs from "yargs"
+import yargs, {Argv} from "yargs"
 import {CLIArgs} from '@budge-types/cli-args';
 import blessed, {Widgets} from "blessed"
 
 const screen = blessed.screen()
-const argv: CLIArgs = yargs
+const argv: Argv<CLIArgs> = yargs
+  .scriptName("budge-it")
   .option("csv", {
     alias: "c",
     description: "The path to your CSV",
@@ -30,6 +31,7 @@ const argv: CLIArgs = yargs
   .demandOption("csv")
   .demandOption("bank")
   .epilogue(`Made by Dave Mackintosh\nhttps://twitter.com/daveymackintosh\nhttps://github.com/davemackintosh\n❤`)
+  .help()
   .argv
 
 const loggers: PostProcessor[] = [
@@ -71,21 +73,21 @@ new Promise<string>((resolve, reject) =>
   }))
   .then((probableEntries: string[][]) => probableEntries.filter((entry: string[]) => entry.length > 0))
   .then((entries: string[][]) => {
-    if (indexes.balance) {
+    if (indexer.balance) {
       entries.unshift([
         new Date().toLocaleString(),
         "OPENING-BALANCE",
         "OPENING-BALANCE",
-        entries[0][indexes.balance],
+        entries[0][indexer.balance],
       ])
     }
     return entries
   })
   .then((entries: string[][]) => entries.map((entry: string[]): ParsedEntry => {
     const baseEntry: ParsedEntry = {
-      date: new Date(entry[indexes.date]),
-      type: entry[indexes.type] as PostType,
-      description: entry[indexes.description],
+      date: new Date(entry[indexer.date]),
+      type: entry[indexer.type] as PostType,
+      description: entry[indexer.description],
       difference: 0,
     }
 
@@ -103,15 +105,15 @@ new Promise<string>((resolve, reject) =>
     // also "-1" < 0 === true
     //   and
     // "1" > 0 === true
-    if (((entry[indexes.income] as any) as number) > 0) {
-      baseEntry.difference = Number(entry[indexes.income])
+    if (((entry[indexer.income] as any) as number) > 0) {
+      baseEntry.difference = Number(entry[indexer.income])
     }
-    else if (((entry[indexes.outgoing] as any) as number) < 0) {
-      baseEntry.difference = Number(entry[indexes.outgoing])
+    else if (((entry[indexer.outgoing] as any) as number) < 0) {
+      baseEntry.difference = Number(entry[indexer.outgoing])
     }
 
-    if (typeof indexes.balance !== "undefined") {
-      baseEntry.balance = Number(entry[indexes.balance])
+    if (typeof indexer.balance !== "undefined") {
+      baseEntry.balance = Number(entry[indexer.balance])
     }
     return baseEntry
   }
