@@ -33,13 +33,12 @@ export function TotalSpending(
     },
     style: {
       fg: "white",
-      bg: "magenta",
       border: {
         fg: "#f0f0f0",
       },
-      hover: {
+      /*hover: {
         bg: "green",
-      },
+      },*/
     },
   })
 }

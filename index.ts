@@ -10,12 +10,26 @@ import { TotalSpending } from "@functions/total-spending"
 import { Monthly } from "@functions/monthly-averages"
 import { MatchersByMonth } from "@functions/matchers"
 import bankIndexes from "@banks"
-//import chalk from "chalk"
 import yargs from "yargs"
 import { CLIArgs } from "@budge-types/cli-args"
 import blessed, { Widgets } from "blessed"
 
-const screen = blessed.screen()
+const screen = blessed.screen({
+  smartCSR: true,
+})
+
+screen.key(["escape", "q", "C-c"], (): void => process.exit(0))
+
+const layout = blessed.layout({
+  parent: screen,
+  layout: "grid",
+  top: "center",
+  left: "center",
+  width: "100%",
+  height: "100%",
+  border: "line",
+})
+
 const argv: CLIArgs = yargs
   .scriptName("budge-it")
   .option("csv", {
@@ -142,7 +156,12 @@ new Promise<string>((resolve, reject): void =>
     )
 
     // Add all the reporters.
-    nodes.forEach((node: Widgets.Node): void => screen.append(node))
+    nodes.forEach((node: Widgets.Node): void => {
+      node.parent = layout
+      // screen.append(node)
+    })
+
+    screen.render()
   })
   .catch((err: any): void => {
     console.error(err)
