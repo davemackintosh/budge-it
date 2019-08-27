@@ -1,6 +1,6 @@
 import { Indexer } from "@budge-types/base"
 
-export const halifax: Indexer = {
+export const hsbc: Indexer = {
   skipLines: 0,
 
   date: 0,

@@ -1,6 +1,6 @@
-import {ParsedEntry} from "@budge-types/base"
-import {money, monthNames} from "@src/utils"
-import blessed, {Widgets} from "blessed"
+import { ParsedEntry } from "@budge-types/base"
+import { money, monthNames } from "@src/utils"
+import blessed, { Widgets } from "blessed"
 
 export interface MatcherConfig {
   label: string
@@ -97,49 +97,59 @@ export const matchers: MatcherConfig[] = [
   },
 ]
 
-export function MatchersByMonth(entries: ParsedEntry[], _screen: Widgets.Screen): Widgets.Node {
+export function MatchersByMonth(
+  entries: ParsedEntry[],
+  _screen: Widgets.Screen,
+): Widgets.Node {
   const months: OutwardMatchedEntries[] = []
   let savings = 0
   let totalUnnecessarySpends = 0
 
-  const entriesByMonth = entries.reduce((out: OutwardMatchedEntries[], entry: ParsedEntry): OutwardMatchedEntries[] => {
-    const month = entry.date.getMonth()
+  const entriesByMonth = entries.reduce(
+    (
+      out: OutwardMatchedEntries[],
+      entry: ParsedEntry,
+    ): OutwardMatchedEntries[] => {
+      const month = entry.date.getMonth()
 
-    for (let matcher of matchers) {
-      if (matcher.matcher.test(entry.description)) {
-        if (!months[month]) {
-          months[month] = {
-            [matcher.label]: {
+      for (let matcher of matchers) {
+        if (matcher.matcher.test(entry.description)) {
+          if (!months[month]) {
+            months[month] = {
+              [matcher.label]: {
+                total: Math.abs(entry.difference),
+                numberOfEntries: 1,
+              },
+            }
+          } else if (!months[month][matcher.label]) {
+            months[month][matcher.label] = {
               total: Math.abs(entry.difference),
               numberOfEntries: 1,
             }
+          } else {
+            months[month][matcher.label] = {
+              ...months[month][matcher.label],
+              total:
+                months[month][matcher.label].total + Math.abs(entry.difference),
+              numberOfEntries: months[month][
+                matcher.label
+              ].numberOfEntries += 1,
+            }
           }
-        }
-        else if (!months[month][matcher.label]) {
-          months[month][matcher.label] = {
-            total: Math.abs(entry.difference),
-            numberOfEntries: 1,
-          }
-        }
-        else {
-          months[month][matcher.label] = {
-            ...months[month][matcher.label],
-            total: months[month][matcher.label].total + Math.abs(entry.difference),
-            numberOfEntries: months[month][matcher.label].numberOfEntries += 1,
-          }
-        }
 
-        if (!matcher.necessary && matcher.label !== "unmatched") {
-          savings += Math.abs(entry.difference)
-          totalUnnecessarySpends += 1
-        }
+          if (!matcher.necessary && matcher.label !== "unmatched") {
+            savings += Math.abs(entry.difference)
+            totalUnnecessarySpends += 1
+          }
 
-        break
+          break
+        }
       }
-    }
 
-    return out
-  }, months)
+      return out
+    },
+    months,
+  )
 
   const monthData = entriesByMonth
     .map((entries: OutwardMatchedEntries, month: number): string => {
@@ -153,24 +163,24 @@ export function MatchersByMonth(entries: ParsedEntry[], _screen: Widgets.Screen)
       return label + breakdown
     })
     .join("\n")
-  
 
   return blessed.box({
-    content: `Monthly breakdown of where the money goes.\nunnecessary spends ${totalUnnecessarySpends} totalling ${money(savings)} in missed savings.\n\n${monthData}`,
+    content: `Monthly breakdown of where the money goes.\nunnecessary spends ${totalUnnecessarySpends} totalling ${money(
+      savings,
+    )} in missed savings.\n\n${monthData}`,
     tags: true,
     border: {
-      type: 'line'
+      type: "line",
     },
     style: {
-      fg: 'white',
-      bg: 'magenta',
+      fg: "white",
+      bg: "magenta",
       border: {
-        fg: '#f0f0f0'
+        fg: "#f0f0f0",
       },
       hover: {
-        bg: 'green'
-      }
-    }
+        bg: "green",
+      },
+    },
   })
-
 }

@@ -1,7 +1,7 @@
-import {Indexer} from "@budge-types/base"
+import { Indexer } from "@budge-types/base"
 
 export const natwest: Indexer = {
-  // how many lines at the top of the CSV are junk 
+  // how many lines at the top of the CSV are junk
   // OR headers?
   skipLines: 3,
 
@@ -13,4 +13,3 @@ export const natwest: Indexer = {
   outgoing: 3,
   balance: 4,
 }
-

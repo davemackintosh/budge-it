@@ -1,8 +1,23 @@
-export const monthNames = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]
+export const monthNames = [
+  "Jan",
+  "Feb",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "Aug",
+  "Sept",
+  "Oct",
+  "Nov",
+  "Dec",
+]
 
 export const currencyMap = {
+  /* eslint-disable @typescript-eslint/camelcase */
   en_GB: "GBP",
   en_US: "USD",
+  /* eslint-enable @typescript-eslint/camelcase */
 }
 
 /**
@@ -18,13 +33,15 @@ export const currencyMap = {
  *
  * console.log(money(165983)) // -> £165,983.00
  * ```
-*/
+ */
 export function money(amount: number): string {
-  const lang = (process.env.LANG || "en_GB").replace(/_(\w+)/gi, (match: string) => match.toUpperCase())
+  const lang = (process.env.LANG || "en_GB").replace(
+    /_(\w+)/gi,
+    (match: string): string => match.toUpperCase(),
+  )
   const langValue = lang.split(".")[0]
   return Number(amount).toLocaleString(langValue.replace("_", "-"), {
     style: "currency",
     currency: currencyMap[langValue as keyof typeof currencyMap] || "GBP",
   })
 }
-
