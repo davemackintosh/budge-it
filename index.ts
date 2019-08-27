@@ -4,6 +4,7 @@ import {TotalSpending} from "./functions/total-spending"
 import {Monthly} from "./functions/monthly-averages"
 import {MatchersByMonth} from "./functions/matchers"
 import bankIndexes from "./bank-indexes"
+import chalk from 'chalk';
 
 const loggers: PostProcessor[] = [
   TotalSpending,
@@ -11,14 +12,19 @@ const loggers: PostProcessor[] = [
   MatchersByMonth,
 ]
 
-const inputCSV = process.argv[2] || "./Regular-20190803.csv"
+if (process.argv.length === 2) {
+  console.log(`${chalk.bold.underline("Usage:")}
+budge-it ${chalk.italic("my-bank-statement.csv natwest|halifax|hsbc")}
+`)
+  process.exit(-1)
+}
+
+const inputCSV = process.argv[2] || "./bank-statement.csv"
 const skipLines = process.argv[3] 
   ? Number(process.argv[3]) 
-  : 3
+  : 0
 
 const indexes: Indexer = bankIndexes[(process.argv[4] || "natwest") as string]
-
-console.log("BANK", indexes)
 
 new Promise<string>((resolve, reject) =>
   readFile(inputCSV, (err: any, buffer: Buffer) => {
@@ -51,22 +57,49 @@ new Promise<string>((resolve, reject) =>
   }))
   .then((probableEntries: string[][]) => probableEntries.filter((entry: string[]) => entry.length > 0))
   .then((entries: string[][]) => {
-    entries.unshift([
-      new Date().toLocaleString(),
-      "OPENING-BALANCE",
-      "OPENING-BALANCE",
-      entries[0][indexes.balance],
-    ])
+    if (indexes.balance) {
+      entries.unshift([
+        new Date().toLocaleString(),
+        "OPENING-BALANCE",
+        "OPENING-BALANCE",
+        entries[0][indexes.balance],
+      ])
+    }
     return entries
   })
   .then((entries: string[][]) => entries.map((entry: string[]): ParsedEntry => {
-    return ({
+    const baseEntry: ParsedEntry = {
       date: new Date(entry[indexes.date]),
       type: entry[indexes.type] as PostType,
-      balance: Number(entry[indexes.balance]),
       description: entry[indexes.description],
-      difference: Number(entry[indexes.difference]),
-    })
+      difference: 0,
+    }
+
+    // If the income is 0 then the bank 
+    // failed to validate the income at
+    // all so we dont care either way.
+    // we can also assume; safely, this
+    // entry is actually an expenditure.
+    //
+    // also Number("") === 0 
+    //   and 
+    // isNaN("") === false 
+    // in JavaScript.
+    //
+    // also "-1" < 0 === true
+    //   and
+    // "1" > 0 === true
+    if (((entry[indexes.income] as any) as number) > 0) {
+      baseEntry.difference = Number(entry[indexes.income])
+    }
+    else if (((entry[indexes.outgoing] as any) as number) < 0) {
+      baseEntry.difference = Number(entry[indexes.outgoing])
+    }
+
+    if (typeof indexes.balance !== "undefined") {
+      baseEntry.balance = Number(entry[indexes.balance])
+    }
+    return baseEntry
   }
   ))
   .then((parsedEntries: ParsedEntry[]) => {

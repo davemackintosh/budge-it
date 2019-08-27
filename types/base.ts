@@ -1,9 +1,9 @@
-export type PostType = "D/D" | "POS"
+export type PostType = "OPENING-BALANCE" | "D/D" | "POS"
 
 export interface ParsedEntry {
   date: Date
   type: PostType
-  balance: number
+  balance?: number
   description: string
   difference: number
 }
@@ -14,7 +14,9 @@ export interface Indexer {
   date: number
   type: number
   description: number
-  difference: number
+  income: number
+  outgoing: number
+  
   /**
    * Natwest keeps a running track of your balance
    * next to the difference field in the CSV.

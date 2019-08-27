@@ -1,5 +1,5 @@
 import {ParsedEntry} from "../types/base"
-import {money} from "../utils"
+import {money, monthNames} from "../utils"
 
 export interface MatcherConfig {
   label: string
@@ -31,18 +31,8 @@ export const matchers: MatcherConfig[] = [
     necessary: true,
   },
   {
-    label: "tesco",
-    matcher: /tesco/gi,
-    necessary: true,
-  },
-  {
-    label: "ocado",
-    matcher: /ocado/gi,
-    necessary: true,
-  },
-  {
-    label: "waitrose",
-    matcher: /waitrose/gi,
+    label: "Groceries",
+    matcher: /waitrose|ocado|sainsburies|tesco|asda/gi,
     necessary: true,
   },
   {
@@ -57,7 +47,7 @@ export const matchers: MatcherConfig[] = [
   },
   {
     label: "taxes",
-    matcher: /(cdc revs)/gi,
+    matcher: /(cdc revs|HMRC)/gi,
     necessary: true,
   },
   {
@@ -90,7 +80,7 @@ export const matchers: MatcherConfig[] = [
   },
   {
     label: "Cafes",
-    matcher: /(Harris and Hoole)/gi,
+    matcher: /(Harris and Hoole|Costa|Starbucks)/gi,
   },
   {
     label: "Vape",
@@ -152,13 +142,14 @@ export function MatchersByMonth(entries: ParsedEntry[]) {
 
   const monthData = entriesByMonth
     .map((entries: OutwardMatchedEntries, month: number): string => {
+      const label = monthNames[month] + "\n"
       const breakdown = Object.keys(entries)
         .map((label: string): string => {
-          return `${month}\n\t${label} :\n\t\ttotal: ${money(entries[label].total)}`
+          return `\t${label} :\n\t\ttotal: ${money(entries[label].total)}`
         })
         .join("\n")
 
-      return breakdown
+      return label + breakdown
     })
     .join("\n")
 

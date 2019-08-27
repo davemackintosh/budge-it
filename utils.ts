@@ -1,3 +1,5 @@
+export const monthNames = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]
+
 export const currencyMap = {
   en_GB: "GBP",
   en_US: "USD",
