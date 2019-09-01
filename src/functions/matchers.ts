@@ -100,6 +100,7 @@ export const matchers: MatcherConfig[] = [
 export function MatchersByMonth(
   entries: ParsedEntry[],
   _screen: Widgets.Screen,
+  layout: Widgets.LayoutElement,
 ): Widgets.Node {
   const months: OutwardMatchedEntries[] = []
   let savings = 0
@@ -165,22 +166,18 @@ export function MatchersByMonth(
     .join("\n")
 
   return blessed.box({
+    parent: layout,
+    width: "98%",
+    height: "50%",
+    scrollable: true,
     content: `Monthly breakdown of where the money goes.\nunnecessary spends ${totalUnnecessarySpends} totalling ${money(
       savings,
     )} in missed savings.\n\n${monthData}`,
-    tags: true,
     border: {
       type: "line",
     },
     style: {
       fg: "white",
-      bg: "magenta",
-      border: {
-        fg: "#f0f0f0",
-      },
-      hover: {
-        bg: "green",
-      },
     },
   })
 }

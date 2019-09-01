@@ -151,15 +151,9 @@ new Promise<string>((resolve, reject): void =>
     ),
   )
   .then((parsedEntries: ParsedEntry[]): void => {
-    const nodes = loggers.map(
-      (logger: PostProcessor): Widgets.Node => logger(parsedEntries, screen),
+    loggers.map(
+      (logger: PostProcessor): Widgets.Node => logger(parsedEntries, screen, layout),
     )
-
-    // Add all the reporters.
-    nodes.forEach((node: Widgets.Node): void => {
-      node.parent = layout
-      // screen.append(node)
-    })
 
     screen.render()
   })

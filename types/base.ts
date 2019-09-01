@@ -11,7 +11,7 @@ export interface ParsedEntry {
   difference: number
 }
 
-export type PostProcessor = (parsedEntries: ParsedEntry[], screen: Widgets.Screen) => Widgets.Node
+export type PostProcessor = (parsedEntries: ParsedEntry[], screen: Widgets.Screen, layout: Widgets.LayoutElement) => Widgets.Node
 
 export interface Indexer {
   date: number

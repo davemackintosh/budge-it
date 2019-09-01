@@ -5,6 +5,7 @@ import blessed, { Widgets } from "blessed"
 export function Monthly(
   entries: ParsedEntry[],
   _screen: Widgets.Screen,
+  layout: Widgets.LayoutElement,
 ): Widgets.Node {
   const months = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -18,25 +19,18 @@ export function Monthly(
   )
 
   return blessed.box({
+    parent: layout,
+    width: "98%",
+    height: "25%",
     content: averages
       .map(
         (month: number, index: number): string =>
           `${monthNames[index]}: ${money(month)}`,
       )
       .join("\n"),
-    tags: true,
-    border: {
-      type: "line",
-    },
     style: {
       fg: "white",
-      bg: "magenta",
-      border: {
-        fg: "#f0f0f0",
-      },
-      hover: {
-        bg: "green",
-      },
+      // bg: "magenta",
     },
   })
 }
