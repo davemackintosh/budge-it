@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "jsx": "react",
+    "module": "commonjs",
+    "sourceMap": true,
+    "outDir": "./build",
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "downlevelIteration": true,
+
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
+    "moduleResolution": "node",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types"
+    ],
+    "types": [
+      "node",
+      "jest"
+    ],
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "@config": ["./config.ts"],
+      "@translations/*": ["./src/translations/*"],
+      "@src/*": ["./src/*"],
+      "@components/*": ["./src/shared/components/*"],
+      "@lib/*": ["./src/shared/lib/*"],
+      "@styled/*": ["./src/shared/theme/*"]
+    }
+  }
+}
