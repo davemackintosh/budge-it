@@ -57,29 +57,7 @@ const argv: CLIArgs = yargs
 
 const loggers: PostProcessor[] = [TotalSpending, Monthly, MatchersByMonth]
 
-const indexer: Indexer = bankIndexes[argv.bank as AvailableBanks]
-
-new Promise<string>((resolve, reject): void =>
-  readFile(argv.csv, (err: any, buffer: Buffer): void => {
-    if (err) return reject(err)
-
-    return resolve(buffer.toString())
-  }),
-)
-  .then((statement: string): string[] =>
-    statement.split("\n").slice(indexer.skipLines),
-  )
-  .then((entries: string[]): string[][] =>
-    entries.map((entry: string): string[] => {
-      let openSpeech = false
-      let out: string[] = []
-      let word = ""
-
-      for (
-        let charIndex = 0, max = entry.length;
-        charIndex < max;
-        charIndex += 1
-      ) {
+const indexer: Indexer = bankIndexes[argv.bank as AvailableBanks
         if (entry[charIndex] === '"') {
           openSpeech = !openSpeech
         }
