@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react",
+    "outDir": "./build",
+    "paths": {
+      "@config": ["./config.ts"],
+      "@translations/*": ["./src/translations/*"],
+      "@src/*": ["./src/*"],
+      "@components/*": ["./src/shared/components/*"],
+      "@lib/*": ["./src/shared/lib/*"],
+      "@styled/*": ["./src/shared/theme/*"]
+    }
+  }
+}

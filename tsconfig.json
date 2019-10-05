@@ -1,13 +1,40 @@
 {
   "compilerOptions": {
-    "outDir": "./build/",
     "target": "es5",
     "module": "commonjs",
+    "sourceMap": true,
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "downlevelIteration": true,
+
     "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
     "moduleResolution": "node",
-    "types": [
-      "node"
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types"
     ],
-    "esModuleInterop": true
+    "types": [
+      "node",
+      "jest"
+    ],
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "@bank-list": ["./bank-indexes/index.ts"],
+      "@banks/*": ["./bank-indexes/*"]
+    }
   }
 }

@@ -1,29 +1,36 @@
 {
   "name": "budge-it",
-  "version": "1.0.2",
-  "description": "Bank statement CSV parser, break down your finances to understand them.",
-  "main": "./build/index.js",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Budgeting tools for free",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node index.ts",
-    "build": "tsc",
-    "prepublishOnly": "tsc"
+    "web": "cd web; yarn run wds"
   },
-  "keywords": [
-    "finance",
-    "financial-analysis",
-    "personal finances"
-  ],
-  "bin": {
-    "budge-it": "./build/index"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davemackintosh/budge-it.git"
   },
+  "keywords": [],
   "author": "davemackintosh",
   "license": "MIT",
-  "dependencies": {
-    "chalk": "^2.4.2"
+  "bugs": {
+    "url": "https://github.com/davemackintosh/budge-it/issues"
   },
+  "homepage": "https://github.com/davemackintosh/budge-it#readme",
   "devDependencies": {
-    "@types/node": "^12.6.9",
-    "typescript": "^3.5.3"
+    "eslint": "^6.4.0",
+    "eslint-config-prettier": "^6.1.0",
+    "eslint-loader": "^3.0.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.15.1",
+    "eslint-plugin-react-hooks": "^2.0.1",
+    "jest": "^24.9.0",
+    "@typescript-eslint/eslint-plugin": "^2.3.0",
+    "@typescript-eslint/parser": "^2.3.0",
+    "typescript": "^3.5.3",
+    "ts-node": "^8.3.0",
+    "tsconfig-paths": "^3.8.0",
+    "prettier": "^1.18.2"
   }
 }
