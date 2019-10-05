@@ -3,7 +3,8 @@ import { BarGraphBar } from "@src/shared/theme/graphs/bar"
 import { CSVContext } from "@src/shared/contexts/csv"
 import { normalise, monthNames } from "@src/shared/utils"
 import { ParsedCsvEntry } from "types/csv"
-import { CSVContextValue } from "web/src/shared/contexts/csv"
+import { CSVContextValue } from "@src/shared/contexts/csv"
+import CSVUpload from "@src/shared/components/csv-uploader"
 
 export interface BarGraphPropsData {
   x: number | Date
@@ -44,8 +45,12 @@ const BarGraph = (props: Props): JSX.Element => {
   const margin = 5
   const totalMargin = margin * 11
   const width = (props.svgWidth - totalMargin) / 12
-  const minY = Math.min(...Object.values(years[currentYear]))
-  const maxY = Math.max(...Object.values(years[currentYear]))
+  const minY = years[currentYear]
+    ? Math.min(...Object.values(years[currentYear]))
+    : 0
+  const maxY = years[currentYear]
+    ? Math.max(...Object.values(years[currentYear]))
+    : 0
   const onYearChange = (event: SyntheticEvent<HTMLSelectElement>): void =>
     updateCurrentYear(Number(event.currentTarget.value))
 
@@ -62,6 +67,8 @@ const BarGraph = (props: Props): JSX.Element => {
       </select>
     )
   }
+
+  if (!years[currentYear]) return <CSVUpload />
 
   return (
     <Fragment>
