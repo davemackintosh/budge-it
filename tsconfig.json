@@ -33,8 +33,10 @@
     "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
-      "@bank-list": ["./bank-indexes/index.ts"],
-      "@banks/*": ["./bank-indexes/*"]
+      "@bank-list": ["./shared/banks/index.ts"],
+      "@banks/*": ["./shared/banks/*"],
+      "@shared/*": ["./shared/*"],
+      "@theme/*": ["./shared/theme/*"]
     }
   }
 }
