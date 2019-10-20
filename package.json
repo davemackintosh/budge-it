@@ -36,7 +36,7 @@
     "tsconfig-paths": "^3.8.0",
     "typescript": "^3.5.3"
   },
-  "dependencies": {
-    "budge-it-web": "file:web"
+  "workspaces": {
+    "packages": ["web", "core", "cli"]
   }
 }

@@ -1,4 +1,5 @@
 {
+  "include": ["./src/**/*"],
   "extends": "../base.tsconfig.json",
   "compilerOptions": {
     "jsx": "react",
@@ -6,9 +7,12 @@
     "baseUrl": ".",
     "paths": {
       "@src/*": ["./src/*"],
-      "@shared/*": ["./src/shared"],
-      "@banks/*": ["../shared/banks/*"],
-      "@shared-lib/*": ["../shared/*"]
+      "@budge/*": ["../*"],
+      "@core/*": ["../core"],
+      "@bank-list": ["../core/banks/index.ts"],
+      "@banks/*": ["../core/banks/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@theme/*": ["./src/shared/theme/*"]
     }
   }
 }

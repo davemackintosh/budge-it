@@ -1,10 +1,10 @@
 import React, { Component } from "react"
 import Layout from "@src/layout"
-import { CSVProvider } from "@shared/contexts/csv"
-import { ParsedCsvEntry } from "types/csv"
+import { CSVProvider } from "@src/shared/contexts/csv"
+import { ParsedCsvEntry } from "@budge/types/csv"
 import { BankProvider } from "@src/shared/contexts/bank"
 import { natwest } from "@banks/natwest"
-import { Indexer } from "types/bank"
+import { Indexer } from "@budge/types/bank"
 
 interface Props {
   children?: JSX.Element | JSX.Element[] | undefined
