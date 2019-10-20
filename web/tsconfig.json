@@ -1,13 +1,14 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "../base.tsconfig.json",
   "compilerOptions": {
     "jsx": "react",
-    "outDir": "./build",
+    "outDir": "./dist",
+    "baseUrl": ".",
     "paths": {
-      "@web-src/*": ["./src/*"],
-      "@web-components/*": ["./src/shared/components/*"],
-      "@web-lib/*": ["./src/shared/lib/*"],
-      "@web-theme/*": ["./src/shared/theme/*"]
+      "@src/*": ["./src/*"],
+      "@shared/*": ["./src/shared"],
+      "@banks/*": ["../shared/banks/*"],
+      "@shared-lib/*": ["../shared/*"]
     }
   }
 }

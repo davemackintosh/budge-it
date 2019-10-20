@@ -1,8 +1,8 @@
 import React, { Component } from "react"
-import Layout from "@web-src/layout"
+import Layout from "@src/layout"
 import { CSVProvider } from "@shared/contexts/csv"
 import { ParsedCsvEntry } from "types/csv"
-import { BankProvider } from "@shared/contexts/bank"
+import { BankProvider } from "@src/shared/contexts/bank"
 import { natwest } from "@banks/natwest"
 import { Indexer } from "types/bank"
 

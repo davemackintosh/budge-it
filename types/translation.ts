@@ -1,7 +1,7 @@
 export interface Translation {
-  "site-name": string,
+  "site-name": string
 }
 
-export interface Translations  {
-  [key: string]: Translation,
+export interface Translations {
+  [key: string]: Translation
 }

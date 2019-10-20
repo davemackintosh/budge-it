@@ -1,5 +1,5 @@
 import React, { Fragment } from "react"
-import CSVUpload from "@src/shared/components/csv-uploader"
+import CSVUpload from "@shared/components/csv-uploader"
 
 function Home(): JSX.Element {
   return (

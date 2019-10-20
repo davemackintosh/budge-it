@@ -1,8 +1,8 @@
 import React, { useContext } from "react"
-import { ReportContainer } from "@src/shared/theme/report"
-import Graph from "@src/shared/components/graphs/graph-container"
+import { ReportContainer } from "@web-src/shared/theme/report"
+import Graph from "@shared-lib/components/graphs/graph-container"
 import { CSVContext } from "@src/shared/contexts/csv"
-import BarGraph from "@src/shared/components/graphs/bar"
+import BarGraph from "@shared/components/graphs/bar"
 
 export function TotalsReport(): JSX.Element {
   const csvContext = useContext(CSVContext)
